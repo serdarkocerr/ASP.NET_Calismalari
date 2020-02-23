@@ -1,0 +1,69 @@
+1. VS Studio açılır
+2. Web Appşication seçilir ve Change Authentication and Autherazition seçilir.
+  Bu kısımda Uygulamamızın rolleri beliretilebilir. (Admin,Kullanıcı vs.) 
+  Bu duruma göre erişim izinleri WEB sayfalarına verilebilir.
+3. Proje oluşturulur.
+4. proje içindeki appsetting.json dosyası database bağlantı ayarlarımızın olacağı dosyadır.
+5. Projeye sağ tıklanıp Models adında bir folder oluşturulur.
+6. Models klasörü içinde Film adında bir class oluşturulur.
+    Film adındaki bu class bizim model'imiz olacaktır.
+    Bu modelin database ile ilişkisi diğer adımlarda kurulacaktır ama modelin değişkenlerini oluştururken
+    database tablosu düşünülüp hangi alanların olabileceği düşünülerek Model oluşturulur. Ayrıca Model'de
+    bir primary id görevini görecek alan eklenmelidir. .Net CORE yapısında  alanın ismi 
+    ID , FilmID  olursa veya [Key] kullanılırsa bu alan PRIMARY KEY olarak kabul edilir. Bizim Modelimiz:
+        
+        public int ID { get; set; } 
+        public string Ad { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime Tarih { get; set; }
+        public string Kategori { get; set; }
+        public double Fiyat { get; set; }
+        
+        Şeklinde oluşturulmuştur. Model'de bulunan ID alanını .NET Core yapısı otomatik olarak PRIMARY KEY olarak algılayacaktır veya
+        bu alanı
+          public int Film.ID { get; set; } veya
+          [Key]
+          public int ABC { get; set; }
+        şeklinde de yazarsak bunu PRIMARY KEY olarak algılayacaktır.
+7. Pages klasörünün altına Films klasörü ekle. 
+8. Films klasörüne sağ tık -> Add -> NewScaffolder -> Razor Page using Entity Framework (CRUD) -> Modelde oluşturduğumuz Film modeline
+göre  bütün gerekli kodlar otomatik olarak oluşturacak. 
+  -> Model (Film) 
+  -> Data Context class +'ya tıklanır. New data context type (baslangic.Data.dbContext)-> Add -> 
+  use Layout page seçilir.(shared altında yer alan MAsterPage'i bizin çerçevemiz olarak al demektir.)
+  ->Add  
+  MS SQL Server'a göre gerekli bütün class'lar vs. yaratılacak.
+  
+9. appsettings.json dosyasında 
+    "ConnectionStrings": {
+    "dbContext": "Server=(localdb)\\mssqllocaldb;Database=dbFilm;Trusted_Connection=True;MultipleActiveResultSets=true"
+  }
+  
+  şeklinde ayar gelir. 
+  localdb -> MS SQL Server ismimizdir.
+  dbFilm -> MS SQL'de oluşturacağımız database ismi.
+  Yani CodeFirst yaklaşımı ile database oluşturmuş oluyoruz.
+  
+10. Veri tabanına bu işlemlerin aktarılması için migration işlemlerinin yapılması gerekiyor.
+   Tools -> nuGet Package Manager -> Package Manager Console tıklanır.
+   add-migration EkleFilm yazılıp Enter'a basılır.
+   update-database yazılıp Enter'a basıldığında 
+   dbFilm adında bir veritabanı oluşur ve veritabanı içerisinde Film adında bir tablo oluşmuş olur. 
+   
+11. Proje run edildiğinde 
+  htt://localhost:44310/Films e gidilince Film tablosu için CRUD işlemleri yapabiliriz.
+  
+12. Modelde güncelleme yapmak istersek migration işlemlerini yeniden yapmamız gerekiyor.
+13. Pages -> Shared -> Layout.cshtml açılır. Bu bizim Master html'imizdir. Yani çerçevemizin olduğu html'dir. Filmler sayfasına 
+gidebilmek için  
+                    <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Films/Index">Filmler</a>
+                        </li>
+ eklenir. Layout.cshtml'de @RenderBody() çağrılması demek Film/Index.cshtml çağrılması demektir.
+ 14. Film/Index.cshtml sayfası açılır
+ @Page -> Bu bir razor page sayfası anlamındadır.
+ @Model -> Veri tabanından gelen nesnedir. (.cs de model return'u var.)
+ @Foreach -> @ ile başlayan C# kodları RAZOR ifadeleridir.
+ Edit linkine tıklanınca ./Edit dosyasına yani c# dosyasına gider.
+ 15. Edit.cs de onGetAsync(int id) meyhoduna gelir. Return Page() ile Edit.cshtml sayfası ekranda gösterilir.
+ 16. Edit yapılıp gönderildiğinde ise Edit.cs dosyasında onPostAsync()'ye gelir. 
