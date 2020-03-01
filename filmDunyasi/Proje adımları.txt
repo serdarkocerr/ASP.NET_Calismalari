@@ -1,0 +1,53 @@
+3 katmanlı proje oluşturulacak. Bu sebepten Blank Solution oluşturulacak.
+Bu projede Code First yaklaşımı kullanılacak. Database First yaklaşımında ilk olarak tablolar databasede oluşturulur.
+Code First'te ise tablolar kodda oluşturulur.
+
+1. Blank Solution oluşturulur. Create New Project -> Blank Solution -> Proje Adı : filmDunyasi -> Create
+2.Boş projenin içine 3 tane proje oluşturacağız. ( 1. proje arayüz projesi ASP.NET MVC)
+3. Solution Explorer içinde Blank Solution'a sağ tık -> Add -> New Project -> ASP.NET Core Web Applicaton C# ->
+Project Name : filmDunyasi.Web -> Create 
+4..NET Core -> ASP.NET Core 3.1 -> Web Application ( Model-View-Controller) tıklayıp -> 
+Authentication Change (Microsoft'un yetkilendirme için kullanıma sunduğu bir özellik) -> İndividual User Accounts -> OK -> Create
+Projemizin sayfalarını oluşturuken Admin, Müşteri rolü vs. gibi roller eklenecek. Bunun için AuthenticationChange gerekiyor.
+Şuan Frontend için oluşturduğumuz projedir. 
+5.Veri tabanını ve veri tabanının ekleneceği proje oluşturucağız. Data projemiz olacak bu.
+Solution sağ tık -> Add New Projet -> Class Library .Net C# -> Project Name : filmDunyasi.Data -> Create
+6. 3. projeyi oluşturucağız.  Model projesidir. 
+Solution sağ tık -> Add New Projet -> Class Library .Net C# -> Project Name : filmDunyasi.Models -> Create(Models'te database'e kayır edeceğimiz tabloları tanıtıyoruz.)
+7. filmDunyasi.Models sağtık -> Add -> Class -> Name : Kategori -> sınıfı public yap.
+Bunun Primary Key vs. tanımlamalamarını yap. 
+-[Key] annotation'ı varsa bu bir primaryKey'dir.
+-ID'yi int yerine Guid yapabiliriz.  Guid 16 byte'lık yer ayıran ve otomatik olarak oluşturulan primaryKey'dir.
+-eğer değişkeni int ID olarak tanımlarsak veya KategoriID yaparsakta [Key] annotation'ı kullanmamıza gerek kalmıyor.
+string Tur ve int Sira değişkenlerini ekle.
+8. Model'e sağ tık ve Dil adında bir class ekle.
+9.Model'e sağ tık ve Filmadında bir class ekle.
+Film class'ı içinde KategoriID olarak tanımladığımız property , Kategori tablosundan gelen bir Foreign Key olduğunu
+söylememiz gerekiyor. Bunu ise aşağıdaki gibi tanımlarız:
+       
+	public int KategoriID { get; set; }
+        [ForeignKey("KategoriID")]
+        public virtual Kategori Kategori { get; set; }
+
+KategoriID, Kategori tablosunun yabanci anahtarıdır demektir.
+Aynı şekilde Dil içinde:
+
+ 	public int DilID { get; set; }
+        [ForeignKey("DilID")]
+        public virtual Dil Dil { get; set; }
+şeklinde foreignKey oluşturulur.
+
+  	[DataType(DataType.Date)]
+        public DateTime VizyonTarihi { get; set; }
+[DataType(DataType.Date)] -> Attribute'si ise DateTime ifadesinin sadece Date kısmını al demektir. Yoksa tarih ve saat bilgisi olur. Saat gereksiz.
+
+ 	[Required]
+        public string FilmAdi { get; set; }
+[Required] -> bu alanın boş olmaması gerektiği durumda bu attribute eklenir.
+10.Model'e sağ tık ve Ulke adında bir class ekle.
+11.Model'e sağ tık ve Yonetmen adında bir class ekle. 
+12. 
+
+
+
+
