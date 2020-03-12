@@ -32,8 +32,6 @@ namespace filmDunyasi.Models
 
         public double IMDBRating  { get; set; }
 
-        public Dublaj Dublaj { get; set; }
-
         public string Afis { get; set; }//Afisin veri yolu
         
         public string Fragman { get; set; }//Fragmanın linki
@@ -43,13 +41,13 @@ namespace filmDunyasi.Models
         [DataType(DataType.Date)]
         public DateTime BitisTarihi { get; set; }
 
+        public int YonetmenID { get; set; }
+
+        [ForeignKey("KategoriID")]//Yonetmen tablsunun Prımaty keyi demek
+        public virtual Yonetmen Yonetmen { get; set; }
 
 
     }
 
-    public enum Dublaj { 
-        Türkçe,
-        Altyazılı,
-        Orjinal
-    }
+    
 }

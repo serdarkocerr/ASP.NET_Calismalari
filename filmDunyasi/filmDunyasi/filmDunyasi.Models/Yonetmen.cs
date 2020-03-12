@@ -22,6 +22,8 @@ namespace filmDunyasi.Models
         public int UlkeID { get; set; }
         [ForeignKey("UlkeID")]
         public virtual Ulke Ulke { get; set; }
+
+        public virtual ICollection<Film> Film { get; set; } // 1 e çok baglantı demek.
     }
 
 
