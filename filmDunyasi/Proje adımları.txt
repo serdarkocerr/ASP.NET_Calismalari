@@ -46,8 +46,25 @@ Aynı şekilde Dil içinde:
 [Required] -> bu alanın boş olmaması gerektiği durumda bu attribute eklenir.
 10.Model'e sağ tık ve Ulke adında bir class ekle.
 11.Model'e sağ tık ve Yonetmen adında bir class ekle. 
-12. 
-
+12. Film tablosuna Yönetmen için bir Foreign key oluşturuldu.
+13.Yönetmen tablosuna ise 1 yönetmenin çok filmi olabilir. Bu sebepten Yönetmen modeline ICollection<Film> Film şeklinde 1 e çok bağlnatı sağlanır.
+ICollection kullanırak navigation property'si koyulur.
+14. Bu durum aslında kategori içinde geçerlidir ama database optimizasyonu açısından Kategoriye eklemiyoruz. Çünkü her yeni filmi Kategori içine 
+ekliyor ve veritabanı index yapısı karmaşıklaşır, geç çalışır. Bu sebepten eklemiyoruz. başka türlü elde ededeceğiz. Bunu eklersek
+bu durum lazy loading oluyor. Yani kategorideki filmlere erişmek kolay ama database optimizasyonu sıkıntılı olur.
+<<<<Bir tarafta Forign varsa diğer tarafta ICollection olacak diye birşey yok.>>>
+1 e çokta çok  illaki Icollection koyulacak diye bişey yok.
+15. Oyuncu tablosu oluşturulur.
+16. Oyuncu ile Film arasında çok a çok ilişki vardır. Çok a çok ta Foreign Key veya Icollection yapamayız
+ara bir tablo yapılır. Bu tablo ile çoka çok ilişki sağlanır.
+17.FilmOyuncu adında ara bir tablo yapılır.
+Bu tabloya OyuncuID ve FilmID adında iki tablonunda Primary Key'i Foreign Key olarak koyulur.
+18.  İl tablosu için class oluşturulur.
+19. İlçe tablosu için class oluşturulur. İl ilçe arasında 1 e çok bağlantı kurulur.
+20. Sinema classı oluşturulur. İlçe ile 1 e çok bağlantı oluşturulur.
+21. Salon class'ı oluşturulur.
+22. Gosterim class ı oluşturulur. Gösterim class'ında hangi filmin hangi salonda ve saatleri verilir.
+23.
 
 
 
