@@ -1,6 +1,11 @@
 3 katmanlı proje oluşturulacak. Bu sebepten Blank Solution oluşturulacak.
 Bu projede Code First yaklaşımı kullanılacak. Database First yaklaşımında ilk olarak tablolar databasede oluşturulur.
-Code First'te ise tablolar kodda oluşturulur.
+Code First'te ise tablolar kodda oluşturulur. Bİr tabloda değişiklik olunca Code First yaklaşımda migration ile  veri tabanına
+değişikliklee yansıtılıyor. Code First yaklaşımın avantajı veri tabanı değişince yeniden tabloları oluşturmak gerekiyor ama codeFirst
+te ise böyle bir sıkıntı olmaz. Kod değişmez. ASP.NET Core'da ise Code First yaklaşımı kullanılıyor. Ayrıca database türüde değişse
+mesela PostgreSQL'den MSSQL veya ORACLE'a geçiş yapmak istersekte Code First bize kolaylık sağlıyor.
+
+Ayrıca ASP.NET Core Linux,Windows vs. bütün işletim sistemlerinde çalışır.(Sunucularda çalışır.)
 
 1. Blank Solution oluşturulur. Create New Project -> Blank Solution -> Proje Adı : filmDunyasi -> Create
 2.Boş projenin içine 3 tane proje oluşturacağız. ( 1. proje arayüz projesi ASP.NET MVC)
@@ -46,6 +51,7 @@ Aynı şekilde Dil içinde:
 [Required] -> bu alanın boş olmaması gerektiği durumda bu attribute eklenir.
 10.Model'e sağ tık ve Ulke adında bir class ekle.
 11.Model'e sağ tık ve Yonetmen adında bir class ekle. 
+-- HAFTA 5--
 12. Film tablosuna Yönetmen için bir Foreign key oluşturuldu.
 13.Yönetmen tablosuna ise 1 yönetmenin çok filmi olabilir. Bu sebepten Yönetmen modeline ICollection<Film> Film şeklinde 1 e çok bağlnatı sağlanır.
 ICollection kullanırak navigation property'si koyulur.
@@ -64,7 +70,36 @@ Bu tabloya OyuncuID ve FilmID adında iki tablonunda Primary Key'i Foreign Key o
 20. Sinema classı oluşturulur. İlçe ile 1 e çok bağlantı oluşturulur.
 21. Salon class'ı oluşturulur.
 22. Gosterim class ı oluşturulur. Gösterim class'ında hangi filmin hangi salonda ve saatleri verilir.
-23.
+-- HAFTA 6 --
+23.  ASP.NET MVC WEB projesi oluşturulurken Microsoft Identy seçilmişti. Migrations klasörü altında migration işlemleri
+Microsft tarafından bize hazır sunuluyor. Bu tablolar direk veri tabanında otomatik olarak oluşturulacak.
+ASP.NET MVC WEB projesi altında  Data -> Migrations altında Data migrationları,  Models klasörü altında Modelleri tanımayabilirdik.
+Ama biz 3 katmanlı yapı kullandık bu sebepten Models,Data ve Web projelerini ayrı ayrı oluşturduk. Katmanlı mimarinin avantajı Core MVC Web katmanını silip 
+Angular, Vue gibi frontend teknolojilerini ekleyebiliriz. Diğer kısımlar sabirt kalır ve yeniden kullanılabilir durumda olur.
+Peki ayrı katman yapınca nasıl migration işlemleri olacak.
+Şu şekilde oluyor. MVC Web  rpojesi altınd Data-> klasörü içindeki Migrations ve ApplicationDbContext klasörü cut yapılır.
+Ardından filmDunyası.Data projesi içine paste yapılır. namespaces'ler güncellenir. (filmDunyasi.Data olarak.)
+filmDunyası.MVC Web içerisindeki Data klasörü silinebilir.
+24.filmDunyası.MVC Web projesi içindeki dependencyler cut/paste yapılan migrationslar için gerekiyor. Peki bunların Data projesine nasıl taşıyacağız?
+Microsoft Core modüler bir yapıdır. Bu sebepten direk taşıyamayız. Her modül kendi içinde dependencyleri tutar. Bu sebepten MVC Web projesi -> Dependencies-> Packages->
+içindeki EntityFrameWorkCore ile ilgili paketlerin aynısını filmDunyası.Data projesinin dependencieslerine eklememiz gerkiyor.
+filmDunyasi.Data sağ tık -> Manage NuGet packages ->  buradan WEB içindeki packages'lar Data'yada eklenir. packages eklenir.
+Migration class'ları Visual Studio tarafından veri tabanına gönderilmesi için otomatik oluşturuyor.
+Projeye sağ tıklayıp -> Edit project File yapılarak dependenciesler gözüküyor.
+25. Visual Studio içinde otomatik olarak gelen Light MSSQL Server içinde local bir database olarak gelir. Burada (localdb'de)işlerimizi hallettikten sonra buradan PostGre SQL'e taşıyacağız.
+Herhangi bir MSSQL, Oracle, PostgerSQL kurmaya gerek kalmadan çalışmamızı yapabiliyoruz.
+26. Bütün ayarlar Web projesi içindeki filmDunyasi.Web -> apppsettings.json içinde. "DefaultConnection": içinde ise Database ismini filmDunyasi2020 olarak değiştirdik.
+(Server=(localdb)\\mssqllocaldb;Database=filmDunyasi2020;)
+27. Migration işleminin yapılabilesi için 
+Tools -> Nuget Package Manager  -> Package Manager Console -> açılır.  Default Project : filmDunyasi.Data seçilir.
+terminal ekranına update-database yazılır. Terminal ekranında görülen error'lar giderilir. (Paket ekleme projeye sağ tık -> Manage Nuget Packages...)
+localdb olarak oluşturduğu database ->
+C:\Users\Serdar\filmDunyasi2020.mdf 
+C:\Users\Serdar\filmDunyasi2020_log.ldf 
+şeklinde oluşur.
+-- HAFTA 7 --
+28.
+
 
 
 

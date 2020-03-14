@@ -1,0 +1,9 @@
+C:\Users\Serdar\git\ASP.NET_Calismalari\filmDunyasi\filmDunyasi\filmDunyasi.Data\bin\Debug\netcoreapp3.1\filmDunyasi.Data.deps.json
+C:\Users\Serdar\git\ASP.NET_Calismalari\filmDunyasi\filmDunyasi\filmDunyasi.Data\bin\Debug\netcoreapp3.1\filmDunyasi.Data.runtimeconfig.json
+C:\Users\Serdar\git\ASP.NET_Calismalari\filmDunyasi\filmDunyasi\filmDunyasi.Data\bin\Debug\netcoreapp3.1\filmDunyasi.Data.runtimeconfig.dev.json
+C:\Users\Serdar\git\ASP.NET_Calismalari\filmDunyasi\filmDunyasi\filmDunyasi.Data\bin\Debug\netcoreapp3.1\filmDunyasi.Data.dll
+C:\Users\Serdar\git\ASP.NET_Calismalari\filmDunyasi\filmDunyasi\filmDunyasi.Data\bin\Debug\netcoreapp3.1\filmDunyasi.Data.pdb
+C:\Users\Serdar\git\ASP.NET_Calismalari\filmDunyasi\filmDunyasi\filmDunyasi.Data\obj\Debug\netcoreapp3.1\filmDunyasi.Data.AssemblyInfoInputs.cache
+C:\Users\Serdar\git\ASP.NET_Calismalari\filmDunyasi\filmDunyasi\filmDunyasi.Data\obj\Debug\netcoreapp3.1\filmDunyasi.Data.AssemblyInfo.cs
+C:\Users\Serdar\git\ASP.NET_Calismalari\filmDunyasi\filmDunyasi\filmDunyasi.Data\obj\Debug\netcoreapp3.1\filmDunyasi.Data.dll
+C:\Users\Serdar\git\ASP.NET_Calismalari\filmDunyasi\filmDunyasi\filmDunyasi.Data\obj\Debug\netcoreapp3.1\filmDunyasi.Data.pdb

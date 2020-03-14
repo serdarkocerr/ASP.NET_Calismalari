@@ -19,6 +19,5 @@ namespace filmDunyasi.Models
 
         public int Sira { get; set; }// Sıraya göre oyuncuların sırası.
 
-        public int MyProperty { get; set; }
     }
 }

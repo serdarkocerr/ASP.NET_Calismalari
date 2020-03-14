@@ -24,6 +24,5 @@ namespace filmDunyasi.Models
 
         public string EPosta { get; set; }
 
-        public int MyProperty { get; set; }
     }
 }
