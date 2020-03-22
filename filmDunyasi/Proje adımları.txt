@@ -92,13 +92,111 @@ Herhangi bir MSSQL, Oracle, PostgerSQL kurmaya gerek kalmadan çalışmamızı y
 (Server=(localdb)\\mssqllocaldb;Database=filmDunyasi2020;)
 27. Migration işleminin yapılabilesi için 
 Tools -> Nuget Package Manager  -> Package Manager Console -> açılır.  Default Project : filmDunyasi.Data seçilir.
-terminal ekranına update-database yazılır. Terminal ekranında görülen error'lar giderilir. (Paket ekleme projeye sağ tık -> Manage Nuget Packages...)
+terminal ekranına update-database yazılır.(Default project filmDunyasi.Data seçili olmalıdır.) Terminal ekranında görülen error'lar giderilir. (Paket ekleme projeye sağ tık -> Manage Nuget Packages... ile  eksik paketler projeye eklenir.)
 localdb olarak oluşturduğu database ->
 C:\Users\Serdar\filmDunyasi2020.mdf 
 C:\Users\Serdar\filmDunyasi2020_log.ldf 
 şeklinde oluşur.
 -- HAFTA 7 --
-28.
+28. filmDunyası.Web içindeki appsettings.json
+    "DefaultConnection": "Server=(localdb)\\mssqllocaldb;Database=filmDunyasi2020;Trusted_Connection=True;MultipleActiveResultSets=true"
+ifadesindeki connection ı değiştirerek farklı databaselere projemizi uyumlandırabiliyoruz. Ama MS Visual Studio tarafından 
+local olarak kurulan veritabanı üzerinden şuanlık işlemlerimizi yapacağız. 
+29. filmDunyasi.Data projesinde  Migrations içindeki Schema içinde proje oluşturulurken Microsoft Identity Auutorization and Authentiation
+seçtiğimizden bu şema oluşturulup roller Visual Studio tarafından otomatik olarak oluşturuluyor. 
+Migration modelden veri tabanına göçü sağlayan dosyadır. PAckage Manager Console'dan update-database yazınca (Default project  filmDunyasi.Data seçili olmalı.)
+database migration işlemleri geçekleşir ve 
+.mdf ve _log.mdf dosyaları oluşur. 
+Oluşturulan database'i görüntülemek için View-> SQL Server Object Explorer'a tıklanır ve açılır.
+29. localdb -> Databases içine gidince databaseler gözüküyor. Table'ları açabiliriz. 
+filmDunyasi2020 -> Tables ->  tablosuna bakıldığından Microsoft Identity tarafından oluşturulan tabloları görüyoruz. 
+(filmDunyasi.Data -> Migrations-> CreateIdentitySchema.cs içinde migrationBuilder.CreateTable ile üretilen tablolar 
+burada oluşturulmuş olduğunu görüyoruz. Örneğin AspNetUsers tablosu.)
+AspNetUsers Tablosunun üzerinde sağ tık -> View Data yaparsak içinin boş olduğunu görürüz. Bunu daha sonra doldurcağız
+30.Örnek olarak bizim Model projemizde oluşturduğumuz Kategori tablosunu aktaracağız(migrations) ve databasede tablolarda gözükecek.
+filmDunyasi.Model projesi içinde -> ApplicationDbContext.cs dosyasını aç. Bu class IdentityDbContext'i kalıtım olarak almış.
+yani Identity'in bütün tablolarını içinde almış.
+ --- ApplicationDbContext classı içinde  public DbSet<Kategori> Kategoris { get; set; } şeklinde eklenir.
+	  DbSet veri tabanındaki tabloyu ifade eder.
+Ekledikten sonra Migration işlemine Kategori tablosunu tabi tutmak gerekiyor ve database göç etsin.
+Solution sağ tık-> Rebuild Solution yapılır.
+Package Manager Console'a --> add-migration EkleKategori yazılır ve Default project filmDunyasi.Data seçilir.
+filmDunyasi.Data içinde Migrations-> kısmına EkleKategori şeklinde yeni dosyamız  gelir.
+Yeni oluşan EkleKategori dosyasına bakacak olursak oluşacak tablo hakkında bilgileri görebilir.
+31. Oluşturulan migration dosyasından sonra databasede Kategori tablosu oluşturması için 
+PAckage Manager Console'-> update-database yazılır ve Default Project olarak filmDunyasi.Data seçilir.
+SQL Server Object Explorer Tables sağ tık Reflesh yapılınca Kategori tablosunun database'e eklendiğini görürüz.
+Kategori tablosuna elle 2 kayıt ekledik. Deneme amaçlı normalde izin verilmemli ve yapılmamalıdır.
+32.ISS Express'e tıkladığımızda Web projei çalışır ve Default bir ekran gelir. Ekranda Privacy alanını  değiştireceğiz.
+Biz MVC kullanıyoruz. Yani Model View Controller. 
+Tek proje yapsaydık Biz filmDunyasi.Web projesinde Models kısmında Modelleri tanıttılacaktır ama biz katmanlı mimari kullanıyoruz.
+Web görünümde üstteki kısma LAyout diyoruz.
+View->Home klasörü altındaki index.cshtml olan kısım Home sayfasında açılan ekrandır. 
+index.cshtml açlınca 
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+kısım Razor ifadesidir. Yan, C# yazılıyor. Yani bizde bu şekilde  c# kodu yazabiliriz.
+
+@{
+    for (int i = 1; i < 11; i++)
+    {  <p>@i</p>}
+}
+ISSEXpress ile çalıştırısak Home sayfasında bunun yazıldığını görürüz.
+
+HomeController.cs altında
+        public IActionResult Index()
+        {
+            return View();
+        }
+
+        public IActionResult Privacy()
+        {
+            return View();
+        }
+		
+kısımları sayfaları gösterir. Biz Privacy'i kullanmayacağız.
+33. Shared klasörü altındaki _Layout.cshtml olan dosya bizim layoutumuzdur. sayfa düzenimizdir.
+içinde Home adındaki sayfayı Anasayfa yapılır ve Privacy sayfası kaldırılır.
+
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Ana Sayfa</a>
+                        </li>
+Bu kısma  Dropdown menu eklenecek. Bunun için Bootsrap kullanılacak.
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link text-white dropdown-toggle" href="#" id="navbarDropDown" data-toggle="dropdown">
+                                Yönetim
+                            </a>
+
+                            <div class="dropdown-menu">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Kategori" asp-action="Index">Kategoriler</a>
+                            </div>
+                        </li>
+eklnir
+Text kısmını white yapıldı. Footer kısmında da bg-primary css class ı eklenir.
+34.Controller -> sağtık -> Add Controller -> MV Controller witeh vievs, using Entity Framework seçilir. 
+Model Class Kategori (filmDunyasi.Models) seçilir. 
+Data Context ApplicationDbContext (filmDunyasi.Data) kısmı seçilir. Buna Scaoffolding yöntemi denir. 
+Use A loayout page kısmında ... seçilirse farklı bir layout varsa seçilebilir. Şuanlık bizim tek layoutumuz var.
+O sebepten seçilmesine gerek yok.
+Controller name KategoriController yazılır. Add yapılır. 
+Controller altında KategoriController.cs ve Views->Kategori->klasörü altında dosyalar oluşturuldu.
+KategoriController ->  
+- Controller kodlarının olduğu kısımdır. 
+- Controller kısmından kalıtım alır.
+- ApplicationDbContext nesnesi bizim databasemizi gösterir.
+-           public async Task<IActionResult> Index()
+        {
+            return View(await _context.Kategoris.ToListAsync());
+        }
+methodu async olarak belirtilmiştir. İşlemler asenkron (paralel) devam eder. 
+Async kullanıldığında ise Task<> kullanılır ve method içinde  View ( await ..) kullanılmalıdır.
+
+
+
+
 
 
 

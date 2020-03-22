@@ -7,3 +7,7 @@ C:\Users\Serdar\git\ASP.NET_Calismalari\filmDunyasi\filmDunyasi\filmDunyasi.Data
 C:\Users\Serdar\git\ASP.NET_Calismalari\filmDunyasi\filmDunyasi\filmDunyasi.Data\obj\Debug\netcoreapp3.1\filmDunyasi.Data.AssemblyInfo.cs
 C:\Users\Serdar\git\ASP.NET_Calismalari\filmDunyasi\filmDunyasi\filmDunyasi.Data\obj\Debug\netcoreapp3.1\filmDunyasi.Data.dll
 C:\Users\Serdar\git\ASP.NET_Calismalari\filmDunyasi\filmDunyasi\filmDunyasi.Data\obj\Debug\netcoreapp3.1\filmDunyasi.Data.pdb
+C:\Users\Serdar\git\ASP.NET_Calismalari\filmDunyasi\filmDunyasi\filmDunyasi.Data\obj\Debug\netcoreapp3.1\filmDunyasi.Data.csprojAssemblyReference.cache
+C:\Users\Serdar\git\ASP.NET_Calismalari\filmDunyasi\filmDunyasi\filmDunyasi.Data\bin\Debug\netcoreapp3.1\filmDunyasi.Models.dll
+C:\Users\Serdar\git\ASP.NET_Calismalari\filmDunyasi\filmDunyasi\filmDunyasi.Data\bin\Debug\netcoreapp3.1\filmDunyasi.Models.pdb
+C:\Users\Serdar\git\ASP.NET_Calismalari\filmDunyasi\filmDunyasi\filmDunyasi.Data\obj\Debug\netcoreapp3.1\filmDunyasi.Data.csproj.CopyComplete

@@ -15,4 +15,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\filmDunyasi.Models\filmDunyasi.Models.csproj" />
+  </ItemGroup>
+
 </Project>
