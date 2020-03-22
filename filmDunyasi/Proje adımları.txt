@@ -6,7 +6,7 @@ te ise böyle bir sıkıntı olmaz. Kod değişmez. ASP.NET Core'da ise Code Fir
 mesela PostgreSQL'den MSSQL veya ORACLE'a geçiş yapmak istersekte Code First bize kolaylık sağlıyor.
 
 Ayrıca ASP.NET Core Linux,Windows vs. bütün işletim sistemlerinde çalışır.(Sunucularda çalışır.)
--- HAFTA 5 --
+-- HAFTA 4 --
 1. Blank Solution oluşturulur. Create New Project -> Blank Solution -> Proje Adı : filmDunyasi -> Create
 2.Boş projenin içine 3 tane proje oluşturacağız. ( 1. proje arayüz projesi ASP.NET MVC)
 3. Solution Explorer içinde Blank Solution'a sağ tık -> Add -> New Project -> ASP.NET Core Web Applicaton C# ->
