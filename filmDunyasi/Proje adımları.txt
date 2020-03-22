@@ -193,8 +193,8 @@ KategoriController ->
         }
 methodu async olarak belirtilmiştir. İşlemler asenkron (paralel) devam eder. 
 Async kullanıldığında ise Task<> kullanılır ve method içinde  View ( await ..) kullanılmalıdır.
-
-
+-- HAFTA 8 --
+35.
 
 
 
