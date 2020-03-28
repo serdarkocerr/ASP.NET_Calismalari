@@ -22,26 +22,9 @@ namespace filmDunyasi.Web.Controllers
         // GET: Kategori
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Kategoris.ToListAsync());
+            return View(await _context.Kategori.ToListAsync());
         }
-
-        // GET: Kategori/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var kategori = await _context.Kategoris
-                .FirstOrDefaultAsync(m => m.ID == id);
-            if (kategori == null)
-            {
-                return NotFound();
-            }
-
-            return View(kategori);
-        }
+     
 
         // GET: Kategori/Create
         public IActionResult Create()
@@ -73,7 +56,7 @@ namespace filmDunyasi.Web.Controllers
                 return NotFound();
             }
 
-            var kategori = await _context.Kategoris.FindAsync(id);
+            var kategori = await _context.Kategori.FindAsync(id);
             if (kategori == null)
             {
                 return NotFound();
@@ -124,7 +107,7 @@ namespace filmDunyasi.Web.Controllers
                 return NotFound();
             }
 
-            var kategori = await _context.Kategoris
+            var kategori = await _context.Kategori
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (kategori == null)
             {
@@ -139,15 +122,15 @@ namespace filmDunyasi.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var kategori = await _context.Kategoris.FindAsync(id);
-            _context.Kategoris.Remove(kategori);
+            var kategori = await _context.Kategori.FindAsync(id);
+            _context.Kategori.Remove(kategori);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool KategoriExists(int id)
         {
-            return _context.Kategoris.Any(e => e.ID == id);
+            return _context.Kategori.Any(e => e.ID == id);
         }
     }
 }

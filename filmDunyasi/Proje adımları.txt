@@ -194,9 +194,101 @@ KategoriController ->
 methodu async olarak belirtilmiştir. İşlemler asenkron (paralel) devam eder. 
 Async kullanıldığında ise Task<> kullanılır ve method içinde  View ( await ..) kullanılmalıdır.
 -- HAFTA 8 --
-35.
+35. filmDunyasi.Web projesi içindeki wwwroot klasörü içinde js, css, gibi statik kaynakları
+buraya koyuyoruz. Hazır lib-> bootstrap klasörü içinde bootstrapt cssi js si mevcut. Bir tema satın alıp
+işlem yapmak istiyorsak bu kalsörleri güncellemek gerekiyor. 
+css->site.css içinde kendi css'lerimizi ekleyebilriiz.
+js->site.js kısmına ise kendi js. kodlarımızı yazabiliyoruz.
+36.filmDunyasi.Web projesinde Controller ve View klasörlerini kullanacağız. Models kısmı ayrı bir klasörde.
+37. tarayıcıdan girilen www.cartcurt.com adresi MV mantığında -> Controller'a gelir.
+Controller  kendinde default olarak hangi sayfa tanımlandıysa ( genel olarak HOme index.html) onu gösterir.
+Ama bir veri gerekiyorsa mesela Databaseden veriyi alır.
+Controller Databaseden veriyi aldıktan sonra View'a gider.
+Controller veriyi View'a gönderilir. Ardından View istek yapan kullanıcıya döner.
+38.KategoriController.cs kolarını inceleyeceğiz.
+
+private readonly ApplicationDbContext _context; satırı DB'yi gösterir.
+filmDunyasi.Model'deki Kategori class'ı veri tabanındaki tabloyu ifade eder. Bunu yapabilmek için
+filmDunyasi.Data projesi içindeki ApplicationDbContext  classı içinde 
+public DbSet<Kategori> Kategori { get; set; } şeklinde ekleyerek ApplicationDbContext  sınıfının içine
+kategori tablosunu dahil etmiş olduk. Daha sonra migration işlemi ile Kategori tablosu için scriptler
+oluşturuldu.Ardından tabloyu fiziksel olarak oluşturmak için update-database demiştik.
+
+Controller içlerinde CRUD işlemlerini yapabileceğimiz kodları yazacağız. Bu sebepten 
+private readonly ApplicationDbContext _context; veritabanı nesnesini oluşturuyoruz.
+
+ilk olarak genel olarak bir controllerın içindeki bir action'ı çağırmak için
+controller/action şeklinde olur ama default olarak controllerın actionı yazılmasa bile
+bunun default'u Index() action'ı gelir.
+Bunu tabikide startup.cs'dosyası içinden değiştirebiliriz. Bu dosya içinde 
+default olarak çağrılacak Controller ( Home) ve bunun default action'ı gösterilir.
+Yani www.cartcurt.com girildiğinde kullanıcıya response olarak Home controller'ın Index Action'ı
+döndürülür. Home yerine Kategori yazarsak default sayfamız Kategori olur Onunda default Index'i 
+sayfa açılınca çalışırdı.
+
+KategoriController'ına gelince default Index() içindeki
+return View(await _context.Kategori.ToListAsync()); ile context database'den Kategori tablosunu listeleyen View dönecek.
+Peki hangi View dönecek? Views klasörü içindeki Kategori klasörü altındaki ekranlardır. Peki hangi ekran dönecek?
+Katergori Controller'ının default action'ını olan Index() actiondan bu View return edildiğinden
+View klasorü -> Kategori -> Index.cshtml View'ı kullanıcıya dönecektir.
+Index.cshtml içinde 	
+@model filmDunyasi.Models.Kategori
+ile model içindeki veriler alınır ve tablo kullanılarak içindeki veriler ekrana yazdırılır.
+İncelemeye devam edersek;
+
+ <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> 
+  <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+linklerini görüyoruz. Burada meslesa Edit linki'ne tıkladı. Linke tıklanınca Edit action'ına
+gidileceği yazıyor ve giderkende @Item.ID ile kayıtın ID'sini götürüyor. Tıklandığında
+
+KategoriController.cs'ın
+ public async Task<IActionResult> Edit(int? id) actionına gider.(ID ile birlikte.)
+ var kategori = await _context.Kategori.FindAsync(id); ile database'den id si ile kayıdı
+alır ve kategori değişkenine aktarır. Gelen cevabı
+return View(kategori); ile view'a gönderir. Peki bu View hangi view olacak?
+Kategori Controller'ından gönderdiğimiz için bi kere View -> Kategori klasörü altına gidiyoruz.
+Edit actionın'dan gönderildiği için de Edit.cshtml'e gidecektir. 
+Edit.cshtm içinde
+<div class="col-md-4"> css'i incelendiğinde 
+bootsrapt'a bir row  12 kolon olarak ifade edilir. Burada bu div içine ne yazılırsa
+tablo,form vs. sayfada 4 kolonluk yer kaplayacak anlamındandır yani ekranın 3'te 1'i. İncelemeye devam edelim;
+
+<form asp-action="Edit">
+.
+.
+.
+  <input type="submit" value="Save" class="btn btn-primary" />
+</form>
+
+Bu kısımda Save butonuna basılınca formun gideceği (submit) yer Edit action'ı olarak belirlenmiştir.
+Edit action'a gidecek. Peki daha önce Edit'e giderken bir ID ile birlikte gidilmişti ama şuan 
+herhangi bir ID yok. Arasındak fark nedir dersek;
+
+ID ile gidilen Edit action'ı GET işlemi yapıyor. 
+Şimdi gidilecek olan Edit action'u ise POST işlemi yapıyor yani POST işlemi ile database'e veri
+yazılacak. Save butonuna basıldı ve Edit actiona'ına gitmek istenildi.
+KategoriController.cs içinde POST olan Edit actiona gidildi.
+ [HttpPost]
+ [ValidateAntiForgeryToken]
+ public async Task<IActionResult> Edit(int id, [Bind("ID,Tur,Sira")] Kategori kategori) action'a gidildi.
+
+HTTP GET işlemi için olan Edit action'ının başında [HttpGet] yazmaz yani yazılmasına gerek yoktur ama
+HTTP POST işlemi için olan Edit action'ının başında [HttpPost] yazar. 
+POST işlemini silme/ekleme/güncelleme için kullanıyoruz.
+Ayrıca [ValidateAntiForgeryToken] ise Microsoft tarafından sunulmuş güzel bir çözümdür.
+[ValidateAntiForgeryToken] çözümü dışarıdan direk post ile URL üzerinden bu action'a erişilemesin diye
+konulmuş bir korumadır. Güvenlik problemini çözer. 
+ _context.Update(kategori); --> veri tabanını update eder.
+ await _context.SaveChangesAsync(); --> veri tabanına yapılan güncellemeyi kaydeder.
 
 
+Edit.cshtml içinde Save yerine
+ <a asp-action="Index">Back to List</a>
+butonuna basılırsa Kategori-> Index() action'ı çalışır. Bu action'da daha önce belirttiğimiz gibi
+tablo içindeki kayıtları listeleyen sayfayı döner.
+39. KategoriController ve View'ları içindeki detail ile ilgili action vs html kodları kaldırıldı. Kullanılmayacak çünkü.
+-- HAFTA 9 --
+40.
 
 
 
