@@ -43,7 +43,7 @@ namespace filmDunyasi.Models
 
         public int YonetmenID { get; set; }
 
-        [ForeignKey("KategoriID")]//Yonetmen tablsunun Prımaty keyi demek
+        [ForeignKey("YonetmenID")]//Yonetmen tablsunun Prımaty keyi demek
         public virtual Yonetmen Yonetmen { get; set; }
 
 

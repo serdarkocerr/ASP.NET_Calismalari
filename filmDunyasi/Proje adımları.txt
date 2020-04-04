@@ -54,12 +54,15 @@ Aynı şekilde Dil içinde:
 -- HAFTA 5--
 12. Film tablosuna Yönetmen için bir Foreign key oluşturuldu.
 13.Yönetmen tablosuna ise 1 yönetmenin çok filmi olabilir. Bu sebepten Yönetmen modeline ICollection<Film> Film şeklinde 1 e çok bağlnatı sağlanır.
-ICollection kullanırak navigation property'si koyulur.
+ICollection kullanırak navigation property'si koyulur. 
 14. Bu durum aslında kategori içinde geçerlidir ama database optimizasyonu açısından Kategoriye eklemiyoruz. Çünkü her yeni filmi Kategori içine 
 ekliyor ve veritabanı index yapısı karmaşıklaşır, geç çalışır. Bu sebepten eklemiyoruz. başka türlü elde ededeceğiz. Bunu eklersek
 bu durum lazy loading oluyor. Yani kategorideki filmlere erişmek kolay ama database optimizasyonu sıkıntılı olur.
-<<<<Bir tarafta Forign varsa diğer tarafta ICollection olacak diye birşey yok.>>>
-1 e çokta çok  illaki Icollection koyulacak diye bişey yok.
+<<<<Bir tarafta Forign varsa diğer tarafta ICollection olacak diye birşey yok.>>>1 e çokta çok  illaki Icollection koyulacak diye bişey yok.
+ICollection ile çok olan kısım tek olan kısım içine eklenir ama bu sadece gerekli olduğundayapılmalıdır. Çünkü lazy loading yüzünden bütün 
+yük database'e biner. ICollection ile tek tarafa  bağlanan çok taraf tablosu, databasede indexleme yapılması demektir. Bu sebepten database'e çok
+yük biner. Bu işlem yüzbinlerce kayıtta olursa database işlemleri çok geç döner. Buna örnek olarak aşağıdaki web sitesine bakılabilir:
+http://www.bayramucuncu.com/entity-framework-ve-orm-araclarinin-lazy-loading-mantigi/
 15. Oyuncu tablosu oluşturulur.
 16. Oyuncu ile Film arasında çok a çok ilişki vardır. Çok a çok ta Foreign Key veya Icollection yapamayız
 ara bir tablo yapılır. Bu tablo ile çoka çok ilişki sağlanır.
@@ -77,7 +80,7 @@ ASP.NET MVC WEB projesi altında  Data -> Migrations altında Data migrationlar�
 Ama biz 3 katmanlı yapı kullandık bu sebepten Models,Data ve Web projelerini ayrı ayrı oluşturduk. Katmanlı mimarinin avantajı Core MVC Web katmanını silip 
 Angular, Vue gibi frontend teknolojilerini ekleyebiliriz. Diğer kısımlar sabirt kalır ve yeniden kullanılabilir durumda olur.
 Peki ayrı katman yapınca nasıl migration işlemleri olacak.
-Şu şekilde oluyor. MVC Web  rpojesi altınd Data-> klasörü içindeki Migrations ve ApplicationDbContext klasörü cut yapılır.
+Şu şekilde oluyor. MVC Web  projesi altınd Data-> klasörü içindeki Migrations ve ApplicationDbContext klasörü cut yapılır.
 Ardından filmDunyası.Data projesi içine paste yapılır. namespaces'ler güncellenir. (filmDunyasi.Data olarak.)
 filmDunyası.MVC Web içerisindeki Data klasörü silinebilir.
 24.filmDunyası.MVC Web projesi içindeki dependencyler cut/paste yapılan migrationslar için gerekiyor. Peki bunların Data projesine nasıl taşıyacağız?
@@ -114,7 +117,7 @@ filmDunyasi2020 -> Tables ->  tablosuna bakıldığından Microsoft Identity tar
 burada oluşturulmuş olduğunu görüyoruz. Örneğin AspNetUsers tablosu.)
 AspNetUsers Tablosunun üzerinde sağ tık -> View Data yaparsak içinin boş olduğunu görürüz. Bunu daha sonra doldurcağız
 30.Örnek olarak bizim Model projemizde oluşturduğumuz Kategori tablosunu aktaracağız(migrations) ve databasede tablolarda gözükecek.
-filmDunyasi.Model projesi içinde -> ApplicationDbContext.cs dosyasını aç. Bu class IdentityDbContext'i kalıtım olarak almış.
+filmDunyasi.Data projesi içinde -> ApplicationDbContext.cs dosyasını aç. Bu class IdentityDbContext'i kalıtım olarak almış.
 yani Identity'in bütün tablolarını içinde almış.
  --- ApplicationDbContext classı içinde  public DbSet<Kategori> Kategoris { get; set; } şeklinde eklenir.
 	  DbSet veri tabanındaki tabloyu ifade eder.

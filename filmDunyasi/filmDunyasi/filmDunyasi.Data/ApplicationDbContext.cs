@@ -14,6 +14,6 @@ namespace filmDunyasi.Data
         {
         }
 
-        public DbSet<Kategori> Kategori { get; set; }
+        public DbSet<Kategori> Kategoris { get; set; }
     }
 }

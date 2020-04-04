@@ -22,7 +22,7 @@ namespace filmDunyasi.Web.Controllers
         // GET: Kategori
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Kategori.ToListAsync());
+            return View(await _context.Kategoris.ToListAsync());
         }
      
 
@@ -56,7 +56,7 @@ namespace filmDunyasi.Web.Controllers
                 return NotFound();
             }
 
-            var kategori = await _context.Kategori.FindAsync(id);
+            var kategori = await _context.Kategoris.FindAsync(id);
             if (kategori == null)
             {
                 return NotFound();
@@ -107,7 +107,7 @@ namespace filmDunyasi.Web.Controllers
                 return NotFound();
             }
 
-            var kategori = await _context.Kategori
+            var kategori = await _context.Kategoris
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (kategori == null)
             {
@@ -122,15 +122,15 @@ namespace filmDunyasi.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var kategori = await _context.Kategori.FindAsync(id);
-            _context.Kategori.Remove(kategori);
+            var kategori = await _context.Kategoris.FindAsync(id);
+            _context.Kategoris.Remove(kategori);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool KategoriExists(int id)
         {
-            return _context.Kategori.Any(e => e.ID == id);
+            return _context.Kategoris.Any(e => e.ID == id);
         }
     }
 }
