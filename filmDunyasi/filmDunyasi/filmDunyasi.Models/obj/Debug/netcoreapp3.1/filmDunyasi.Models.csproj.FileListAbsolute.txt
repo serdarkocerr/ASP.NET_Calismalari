@@ -5,3 +5,4 @@ C:\Users\Serdar\git\ASP.NET_Calismalari\filmDunyasi\filmDunyasi\filmDunyasi.Mode
 C:\Users\Serdar\git\ASP.NET_Calismalari\filmDunyasi\filmDunyasi\filmDunyasi.Models\obj\Debug\netcoreapp3.1\filmDunyasi.Models.AssemblyInfo.cs
 C:\Users\Serdar\git\ASP.NET_Calismalari\filmDunyasi\filmDunyasi\filmDunyasi.Models\obj\Debug\netcoreapp3.1\filmDunyasi.Models.dll
 C:\Users\Serdar\git\ASP.NET_Calismalari\filmDunyasi\filmDunyasi\filmDunyasi.Models\obj\Debug\netcoreapp3.1\filmDunyasi.Models.pdb
+C:\Users\Serdar\git\ASP.NET_Calismalari\filmDunyasi\filmDunyasi\filmDunyasi.Models\obj\Debug\netcoreapp3.1\filmDunyasi.Models.csprojAssemblyReference.cache

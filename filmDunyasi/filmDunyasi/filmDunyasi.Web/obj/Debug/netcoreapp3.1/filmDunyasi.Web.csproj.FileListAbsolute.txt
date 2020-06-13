@@ -209,3 +209,7 @@ C:\Users\Serdar\git\ASP.NET_Calismalari\filmDunyasi\filmDunyasi\filmDunyasi.Web\
 C:\Users\Serdar\git\ASP.NET_Calismalari\filmDunyasi\filmDunyasi\filmDunyasi.Web\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\_ViewImports.cshtml.g.cs
 C:\Users\Serdar\git\ASP.NET_Calismalari\filmDunyasi\filmDunyasi\filmDunyasi.Web\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\_ValidationScriptsPartial.cshtml.g.cs
 C:\Users\Serdar\git\ASP.NET_Calismalari\filmDunyasi\filmDunyasi\filmDunyasi.Web\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\_ViewImports.cshtml.g.cs
+C:\Users\Serdar\git\ASP.NET_Calismalari\filmDunyasi\filmDunyasi\filmDunyasi.Web\bin\Debug\netcoreapp3.1\EntityFramework.SqlServer.dll
+C:\Users\Serdar\git\ASP.NET_Calismalari\filmDunyasi\filmDunyasi\filmDunyasi.Web\bin\Debug\netcoreapp3.1\EntityFramework.dll
+C:\Users\Serdar\git\ASP.NET_Calismalari\filmDunyasi\filmDunyasi\filmDunyasi.Web\bin\Debug\netcoreapp3.1\Microsoft.AspNet.Identity.Core.dll
+C:\Users\Serdar\git\ASP.NET_Calismalari\filmDunyasi\filmDunyasi\filmDunyasi.Web\bin\Debug\netcoreapp3.1\Microsoft.AspNet.Identity.EntityFramework.dll

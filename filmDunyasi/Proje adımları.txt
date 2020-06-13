@@ -15,10 +15,10 @@ Project Name : filmDunyasi.Web -> Create
 Authentication Change (Microsoft'un yetkilendirme için kullanıma sunduğu bir özellik) -> İndividual User Accounts -> OK -> Create
 Projemizin sayfalarını oluşturuken Admin, Müşteri rolü vs. gibi roller eklenecek. Bunun için AuthenticationChange gerekiyor.
 Şuan Frontend için oluşturduğumuz projedir. 
-5.2. proje Veri tabanını ve veri tabanının ekleneceği proje oluşturucağız. Data projemiz olacak bu.
-Solution sağ tık -> Add New Projet -> Class Library .Net C# -> Project Name : filmDunyasi.Data -> Create
-6. 3. projeyi oluşturucağız.  Model projesidir. 
-Solution sağ tık -> Add New Projet -> Class Library .Net C# -> Project Name : filmDunyasi.Models -> Create(Models'te database'e kayıt edeceğimiz tabloları tanıtıyoruz.)
+5.-> 2. proje Veri tabanını ve veri tabanının ekleneceği proje oluşturucağız. Data projemiz olacak bu.
+Solution sağ tık -> Add New Projet -> Class Library .Net Core C# -> Project Name : filmDunyasi.Data -> Create
+6.-> 3. projeyi oluşturucağız.  Model projesidir. 
+Solution sağ tık -> Add New Projet -> Class Library .Net Core C# -> Project Name : filmDunyasi.Models -> Create(Models'te database'e kayıt edeceğimiz tabloları tanıtıyoruz.)
 7. filmDunyasi.Models sağtık -> Add -> Class -> Name : Kategori -> sınıfı public yap.
 Bunun Primary Key vs. tanımlamalamarını yap. 
 -[Key] annotation'ı varsa bu bir primaryKey'dir.
@@ -439,14 +439,14 @@ Hangi user'ın hangi rolle ilişkili olduğunu UserRole tablosunda belirtiyoruz.
 
 48.  Areas-> Identity -> Pages altında Identity ile ilgili ekranların olması gerekiyor.
 Bunları MVC ile değilde Razor page ile getireceğiz. 
-Identity sağ tık-> Add-> New Scaffolded Item -> Common-> Identity-> 
-Account\Register, Acount\Login seçilir. Data Context Class filmdunyası.Data seçilir. -> Add -> Pages altına bu ekranları oluşturacak.
+Identity sağ tık-> Add-> New Scaffolded Item -> Common-> Identity seç-> 
+Account\Register(check), Acount\Login(check) ,Acount\Logout(check) seçilir. Data Context Class filmdunyası.Data seçilir. -> Add -> Pages altına bu ekranları oluşturacak.
 Login , Register ve Logout ekranı gerektiğinden bunları seçtik. Page altında Razor page'ler oluşturacaktır.
-Diğerleri şuanlık ihtiyacımız değil amabakacak olursak.
+Diğerleri şuanlık ihtiyacımız değil ama bakacak olursak.
 Reset Password -> şifre resetleme ekranı
 Account\Manage\TwoFactorAuthentication -> Aktivaston kodu vs. gibi işlemler için kullanılır.
 
-Page altına -> Account klasörü içinde -> Login, Logout, REgister viewları oluşturulud.
+Page altına -> Account klasörü içinde -> Login, Logout, REgister viewları oluşturuldu.
 MVC yapısında -> controller tarafından viewlara yönendiriliyorduk. Bu sayfalar razor page mantığıyla
 yazılmış. İncelyecek olursak 
 Login.cshtml frontent kısmı , Login.cshtml.cs ise backend kısmı oluyor. Yani Controllerda yaptığımız şeylere karşılık geliyor.
@@ -461,7 +461,7 @@ Models projesi altında Dependency altına  -> Microsoft.AspNet.Identity.EntityF
 Bu namespace'den IdentityUser'ı kalıtacağız. IdentityUser'ın kendi Primary KEY'i vardır. Bu sebepten ApplicationUser.cs'ta primary KEY belirtilmedi.
 Aynı şekilde bunu Nuget Packet Manager ile 
 Microsft.Identity ile ilgili Entitiy FrameWork ü ve Identiy UI'da install etmemiz gerekiyor.
-
+(Bazen EnttiyFrameWork'ü bulamadım diye hata veriyor. Bunun icin Visual Studio'yu kapat/ac)
 
 
 ApplicationUser.cs ye Ad,Soyad,Dogumtarihi alanlarını ekledik.
