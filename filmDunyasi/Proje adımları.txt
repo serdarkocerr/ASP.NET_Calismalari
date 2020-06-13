@@ -15,15 +15,18 @@ Project Name : filmDunyasi.Web -> Create
 Authentication Change (Microsoft'un yetkilendirme için kullanıma sunduğu bir özellik) -> İndividual User Accounts -> OK -> Create
 Projemizin sayfalarını oluşturuken Admin, Müşteri rolü vs. gibi roller eklenecek. Bunun için AuthenticationChange gerekiyor.
 Şuan Frontend için oluşturduğumuz projedir. 
-5.Veri tabanını ve veri tabanının ekleneceği proje oluşturucağız. Data projemiz olacak bu.
+5.2. proje Veri tabanını ve veri tabanının ekleneceği proje oluşturucağız. Data projemiz olacak bu.
 Solution sağ tık -> Add New Projet -> Class Library .Net C# -> Project Name : filmDunyasi.Data -> Create
 6. 3. projeyi oluşturucağız.  Model projesidir. 
-Solution sağ tık -> Add New Projet -> Class Library .Net C# -> Project Name : filmDunyasi.Models -> Create(Models'te database'e kayır edeceğimiz tabloları tanıtıyoruz.)
+Solution sağ tık -> Add New Projet -> Class Library .Net C# -> Project Name : filmDunyasi.Models -> Create(Models'te database'e kayıt edeceğimiz tabloları tanıtıyoruz.)
 7. filmDunyasi.Models sağtık -> Add -> Class -> Name : Kategori -> sınıfı public yap.
 Bunun Primary Key vs. tanımlamalamarını yap. 
 -[Key] annotation'ı varsa bu bir primaryKey'dir.
 -ID'yi int yerine Guid yapabiliriz.  Guid 16 byte'lık yer ayıran ve otomatik olarak oluşturulan primaryKey'dir.
 -eğer değişkeni int ID olarak tanımlarsak veya KategoriID yaparsakta [Key] annotation'ı kullanmamıza gerek kalmıyor.
+  public int ID { get; set; }
+  veya
+  public int KategoriID { get; set; }
 string Tur ve int Sira değişkenlerini ekle.
 8. Model'e sağ tık ve Dil adında bir class ekle.
 9.Model'e sağ tık ve Filmadında bir class ekle.
@@ -37,12 +40,12 @@ söylememiz gerekiyor. Bunu ise aşağıdaki gibi tanımlarız:
 KategoriID, Kategori tablosunun yabanci anahtarıdır demektir.
 Aynı şekilde Dil içinde:
 
- 	public int DilID { get; set; }
+		public int DilID { get; set; }
         [ForeignKey("DilID")]
         public virtual Dil Dil { get; set; }
 şeklinde foreignKey oluşturulur.
 
-  	[DataType(DataType.Date)]
+		[DataType(DataType.Date)]
         public DateTime VizyonTarihi { get; set; }
 [DataType(DataType.Date)] -> Attribute'si ise DateTime ifadesinin sadece Date kısmını al demektir. Yoksa tarih ve saat bilgisi olur. Saat gereksiz.
 
@@ -54,20 +57,34 @@ Aynı şekilde Dil içinde:
 -- HAFTA 5--
 12. Film tablosuna Yönetmen için bir Foreign key oluşturuldu.
 13.Yönetmen tablosuna ise 1 yönetmenin çok filmi olabilir. Bu sebepten Yönetmen modeline ICollection<Film> Film şeklinde 1 e çok bağlnatı sağlanır.
-ICollection kullanırak navigation property'si koyulur. 
+ICollection kullanırak navigation property'si koyulur. (Indexleme)
 14. Bu durum aslında kategori içinde geçerlidir ama database optimizasyonu açısından Kategoriye eklemiyoruz. Çünkü her yeni filmi Kategori içine 
 ekliyor ve veritabanı index yapısı karmaşıklaşır, geç çalışır. Bu sebepten eklemiyoruz. başka türlü elde ededeceğiz. Bunu eklersek
 bu durum lazy loading oluyor. Yani kategorideki filmlere erişmek kolay ama database optimizasyonu sıkıntılı olur.
+ICollection  ile 1 tarafına çok tarafın bilgisini koyuyoruz. 
 <<<<Bir tarafta Forign varsa diğer tarafta ICollection olacak diye birşey yok.>>>1 e çokta çok  illaki Icollection koyulacak diye bişey yok.
-ICollection ile çok olan kısım tek olan kısım içine eklenir ama bu sadece gerekli olduğundayapılmalıdır. Çünkü lazy loading yüzünden bütün 
+ICollection ile çok olan kısım tek olan kısım içine eklenir ama bu sadece gerekli olduğunda yapılmalıdır. Çünkü lazy loading yüzünden bütün 
 yük database'e biner. ICollection ile tek tarafa  bağlanan çok taraf tablosu, databasede indexleme yapılması demektir. Bu sebepten database'e çok
 yük biner. Bu işlem yüzbinlerce kayıtta olursa database işlemleri çok geç döner. Buna örnek olarak aşağıdaki web sitesine bakılabilir:
 http://www.bayramucuncu.com/entity-framework-ve-orm-araclarinin-lazy-loading-mantigi/
 15. Oyuncu tablosu oluşturulur.
 16. Oyuncu ile Film arasında çok a çok ilişki vardır. Çok a çok ta Foreign Key veya Icollection yapamayız
 ara bir tablo yapılır. Bu tablo ile çoka çok ilişki sağlanır.
+		public class FilmOyuncu{
+		public int ID { get; set; }
+
+        public int FilmID { get; set; }
+        [ForeignKey("FilmID")]
+        public virtual Film Film { get; set; }
+
+        public int OyuncuID { get; set; }
+        [ForeignKey("OyuncuID")]
+        public virtual Oyuncu Oyuncu { get; set; }
+		}
 17.FilmOyuncu adında ara bir tablo yapılır.
 Bu tabloya OyuncuID ve FilmID adında iki tablonunda Primary Key'i Foreign Key olarak koyulur.
+
+
 18.  İl tablosu için class oluşturulur.
 19. İlçe tablosu için class oluşturulur. İl ilçe arasında 1 e çok bağlantı kurulur.
 20. Sinema classı oluşturulur. İlçe ile 1 e çok bağlantı oluşturulur.
@@ -291,8 +308,172 @@ butonuna basılırsa Kategori-> Index() action'ı çalışır. Bu action'da daha
 tablo içindeki kayıtları listeleyen sayfayı döner.
 39. KategoriController ve View'ları içindeki detail ile ilgili action vs html kodları kaldırıldı. Kullanılmayacak çünkü.
 -- HAFTA 9 --
-40.
+Vize
+-- HAFTA 10 --
+
+40.Film ve Kategori çok'a bir olarak düşünüldü. Yani bir kategorinin en az hiç en çok çok filmi vardır.Bir film ise en az 1 en çok 1.
+   Modelleri tablo şekline dönüştürmeden önce onun bağlı olduğu tabloları ilk yapın. Yani en alttaki tablodan başlayarak yapılmalıdır.
+   Film tabosunu oluşturmak için bunun elemanı olan Ülkeden  başlayalım. Çünkü ülkenin hiç bağımlılığı yok. (Foreign Key'i)
+   
+   1.adım-- İlk olarak DbSet'e eklenmeli. Oda FilmDunyası.Data projesi içinde yer alıyor.ApplicationDbContext içinde 
+   public DbSet<Ulke> Ulke { get; set; } eklenir. ve Rebuild yapılır.
+
+	
+   2.adım--- Ülke için Web projesinde Controller -> sağtık -> Add Controller -> Add MVC Controller with views, using Entity Framework ile 
+	Model class'ı Ülke seçilir. -> Add. Bu şekilde CRUD işlemlerini yapacak otomatik generated kodlar oluşturulur.
+	
+   3.adım -- Shared-> Layout.cshtml içinde Ulke seçimi için dropdownlist'e Ulke seçeneği ekliyoruz.
+			<a class="nav-link text-dark" asp-area="" asp-controller="Ulke" asp-action="Index">Ulke</a>
+
+   4.adım -- Migration işlemi.
+			 Tools->Nuget Package Manager -> Package Manager Console -> console açılır 
+			 add-migration EkleUlke -> (Default project Data seçili olması lazım )yazılır ve Data projesindeki Migrations dosyası güncellenir.
+			 SQL Server Object Explorer'dan mevcut database'imiz gözüküyor ama içine bakında Ulke tablosu yok. Çünkü son bir adım daha kaldı.
+			 update-database -> komutunu yazıyoruz.  SQL Server Object Explorer filmDunyasi2020 databaseinde Ulke gelir. Manuel olarak Türkiyeyi ekledik.
+	
+	Şimdi Ülke bitti. Film tablsu için Dil,Yönetmen tablolarında da aynı işlemler yapılacak.
+	Yönetmen modelini controllerını ve migration'ı yaptıktan sonra, web sayfasında görüntüleyince Cinsiyet gelmedi ve Ülke isim değilde Id olarak geldi.
+	Bunu düzelteceğiz. YönetmenController içinde Create Actiona gideriz. 
+	        // GET: Yonetmen/Create
+        public IActionResult Create()
+        {
+            ViewData["UlkeID"] = new SelectList(_context.Ulke, "ID", "UlkeAdi"); // Eski hali "ID,"ID" şeklindeydi. "UlkeAdi" yazdık.
+            return View();
+        }
+	Enum'u gösterebilmek için YonetmenController View'ına gidiyoruz. Create view'ına
+	!!!BUNU ARAŞTIRMA ÖDEVİ OLARAK VERDİ. HTML'de ENUM NASIL GÖSTERİLECEK HAFTAYA GÖSTERECEK:
+
+41. Film tablosuda yukarıdaki gibi oluşturuldu.
+	Kategori, Dil , Yönetmen ->  ID Şeklinde  ekrana  geliyor.
+	FilmController içinde View'larda bunları düzeltiyoruz. Örnek Create View'ında düzeltme altta.
+	       public IActionResult Create()
+        {
+            ViewData["DilID"] = new SelectList(_context.Dil, "ID", "Ad");
+            ViewData["KategoriID"] = new SelectList(_context.Kategoris, "ID", "Tur");
+            ViewData["YonetmenID"] = new SelectList(_context.Yonetmen, "ID", "Ad");
+            return View();
+        
+-- HAFTA 11 --	
+42. Yönetmen ekranında Cinsiyet'i nasıl isim olarak getirteceğiz.?
+Models-> Yönetmen.cs e gidilir. 
+Cinsiyeti enum olarak belirtmiştik.
+Web projesi içinde YönetmenController'ı MSoftun Scaoffolding ile ürettiğimiz için
+oraya bakıyoruz. View klasörü altına otomatik oluşturulmuş html dosyları varıdr.
+Create.cshtml kısmına gidersek asp .net html tagleri mevcut.
+orada Cinsiyet için olan forma gidersek  Cinsiyet kısmındaki <select> tagini
+                <select asp-for="Cinsiyet" 
+                        asp-items="Html.GetEnumSelectList<filmDunyasi.Models.enums.Cinsiyet>()"                       
+                        class="form-control">
+
+                </select>
+olarak değiştirirsek enum değerleri gelecek.
+43. Web ekranındaki Fim /Create'e gelirsek orada YönetmenId kısmı yerine
+yönetmen adı ve soyadı gelsin istiyoruz nasıl yaparız?
+
+bunun için Models'ten yönetmen.cs ye gideriz
+
+        public string AdSoyad {
+            get {
+                return Ad + " " + Soyad;
+            }
+        }
+
+methodunu oluştururuz.
+
+FilmController içinde IActionResult Create() e gidilir.
+oradata 
+        ViewData["YonetmenID"] = new SelectList(_context.Yonetmen, "ID", "Ad"); şeklindeydi
+		bunu
+		ViewData["YonetmenID"] = new SelectList(_context.Yonetmen, "ID", "AdSoyad");
+olarak düzeltelim. Bu şekilde gelir.
+
+44.FilmController altına git.
+
+ private readonly ApplicationDbContext _context; -> veri tabanını gösterir.
+
+Idex() action'a bakacak olursak
+Aşağıdaki kodda veri tabanının Film tablosunu al
+bu tablo ile Dil,Kategori,Yonetmen tabloları arasında PK,FK ile ilişki varsa 
+onlarıda al demek. Bu sayede bütün verileri alabiliyor.
+
+        public async Task<IActionResult> Index()
+        {
+            var applicationDbContext = _context.Film.
+                Include(f => f.Dil).
+                Include(f => f.Kategori).
+                Include(f => f.Yonetmen);
+            return View(await applicationDbContext.ToListAsync());
+        }
+
+45. Kagetorisi romantizm olan filmleri nasıl getiririz?
+Kodda bu şekilde yapıyoruz.
+aşağıdaki şekilde Tur'e göre filmleri getirebiliriz. Burada Where ifadesi aslnda LINQ sorgusudur.
+ _context ifadesi zaten bizim modelimiz ve verileri içeriyor. O sebepten Where orada yapıldı.
+ Include edilme kısmında ise return edilecek değere ne eklenecek neler dahil edilecek gibi düşünebiliriz.
+ 
+	public async Task<IActionResult> Index()
+        {
+		// var model = _context.Film.OrderBy(x=>x.VizyonTarihi).--> vizyon tarihine göre sıralar.
+		// var model = _context.Film.OrderByDescending(x=>x.VizyonTarihi).
+		//var model = _context.Film.OrderByDescending(x=>x.VizyonTarihi).Take(3). --> ilk 3 veriyi al
+		// var model = _context.Film.OrderByDescending(x=>x.VizyonTarihi).Skip(2).Take(3)--> ilk iki veriyi geç ondan sonraki 3 tanesini al.
+		 var model = _context.Film.Where(x=> x.Kategori.Tur=="Romantizm"  && x.Dil.Ad=="Türkçe").
+                Include(f => f.Dil).
+                Include(f => f.Kategori).
+                Include(f => f.Yonetmen);
+                
+            return View(await model.ToListAsync());
+        }
+
+-- HAFTA 12 --
+-- YETKİLENDİRME ve ROL YÖNETİMİ ANLATILACAK --
+46. İLk proje oluşturulurken Microsoft IDenty seçilmiştir. Autentication altında change seçenğinden seçmiştik. Bu sayede Autentication ve Authorzationı seçmiş olduk.
+ Bu sayede anasayafada  Login ve Register kısımları otomatik geldi.
+ Login olup admin rolüne sahip olanlar Yönetim sayfasını görmelidir.
+ Müşteri rolü olanlar burayı görmemelidir.
+
+47. SQL Server Object Explorer altında -> databases kısmında-> Table'lara bakarsak User,UserRole vs. tabloları görebiliriz.
+Tablolara bakıldığında ad soyad gibi ifade yok. Microsoft bir temel vermiş bu temeli istediğin gibi 
+geliştirebilirsin diyor.
+Hangi user'ın hangi rolle ilişkili olduğunu UserRole tablosunda belirtiyoruz.
+
+48.  Areas-> Identity -> Pages altında Identity ile ilgili ekranların olması gerekiyor.
+Bunları MVC ile değilde Razor page ile getireceğiz. 
+Identity sağ tık-> Add-> New Scaffolded Item -> Common-> Identity-> 
+Account\Register, Acount\Login seçilir. Data Context Class filmdunyası.Data seçilir. -> Add -> Pages altına bu ekranları oluşturacak.
+Login , Register ve Logout ekranı gerektiğinden bunları seçtik. Page altında Razor page'ler oluşturacaktır.
+Diğerleri şuanlık ihtiyacımız değil amabakacak olursak.
+Reset Password -> şifre resetleme ekranı
+Account\Manage\TwoFactorAuthentication -> Aktivaston kodu vs. gibi işlemler için kullanılır.
+
+Page altına -> Account klasörü içinde -> Login, Logout, REgister viewları oluşturulud.
+MVC yapısında -> controller tarafından viewlara yönendiriliyorduk. Bu sayfalar razor page mantığıyla
+yazılmış. İncelyecek olursak 
+Login.cshtml frontent kısmı , Login.cshtml.cs ise backend kısmı oluyor. Yani Controllerda yaptığımız şeylere karşılık geliyor.
+
+
+49.Microstftun oluşturduğu User tablosuna database'de baktığımızda Ad Soyad gibi kısımlar yok  yeni eklentiler yapmamız gerekiyor. Mesela Ad, Soyad Doğum Tarihi.
+Bunun için Model projemizde, 
+ApplicationUser.cs adında bir class oluşturuyoruz.
+Bu class' IdentityUser'ı kalıtıyoruz. IdentityUser'ı EntiyFrameWorkten seçeceğimizden IdentityUser üzerinde mause ile durusak
+Microsoft.AspNet.Identity.EntityFramework Latest Install Version diye seçeneği seçiyoruz ve son vesiyonu indiriyoruz.
+Models projesi altında Dependency altına  -> Microsoft.AspNet.Identity.EntityFramework'ü bu sayede dependencylere eklemiş oluruz.
+Bu namespace'den IdentityUser'ı kalıtacağız. IdentityUser'ın kendi Primary KEY'i vardır. Bu sebepten ApplicationUser.cs'ta primary KEY belirtilmedi.
+Aynı şekilde bunu Nuget Packet Manager ile 
+Microsft.Identity ile ilgili Entitiy FrameWork ü ve Identiy UI'da install etmemiz gerekiyor.
 
 
 
+ApplicationUser.cs ye Ad,Soyad,Dogumtarihi alanlarını ekledik.
 
+Bir tabloya yeni alanlar eklenince onun veritabanına yansıması için neler yapmamız gerekiyordu?
+Öncelikle Build edilecek, Sonra Add migration komutunu kullanrak sınıftan veritabanına göc işlemini  başlatmak gerekmektedir.
+ -Package Manage Console açılır.
+ -Default proje olarak Data projesi seçilir Package Manager Console'dan.
+ - ApplicationDbContext.cs altında ApplicationUser eklenmelidir.
+	DbSet<ApplicationUser> ApplicationUser {get; set;}
+ - Package Manage Console da  add-migration yapmamız gerekiyor.
+
+
+-- HAFTA 13-14 --
+50.

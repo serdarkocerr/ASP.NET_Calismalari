@@ -15,5 +15,12 @@ namespace filmDunyasi.Data
         }
 
         public DbSet<Kategori> Kategoris { get; set; }
+        public DbSet<Ulke> Ulke { get; set; }
+
+        public DbSet<Dil> Dil { get; set; }
+        public DbSet<Yonetmen> Yonetmen { get; set; }
+        public DbSet<Film> Film { get; set; }
+
+        public DbSet<ApplicationUser> ApplicationUser { get; set; }
     }
 }

@@ -1,0 +1,94 @@
+﻿@model IEnumerable<filmDunyasi.Models.Film>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Kategori)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Dil)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FilmAdi)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VizyonTarihi)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sure)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IMDBRating)
+            </th>
+            @*<th>
+                @Html.DisplayNameFor(model => model.Afis)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Fragman)
+            </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.BaslamaTarihi)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BitisTarihi)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Yonetmen)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Kategori.Tur)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Dil.Ad)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FilmAdi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VizyonTarihi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sure)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IMDBRating)
+            </td>
+            @*<td>
+                        @Html.DisplayFor(modelItem => item.Afis)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Fragman)
+                    </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.BaslamaTarihi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BitisTarihi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Yonetmen.AdSoyad)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
+                <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+            </td>
+               </tr>
+        }
+            </tbody>
+        </table>

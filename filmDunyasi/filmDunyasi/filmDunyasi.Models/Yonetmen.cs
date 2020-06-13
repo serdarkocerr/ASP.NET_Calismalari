@@ -23,7 +23,20 @@ namespace filmDunyasi.Models
         [ForeignKey("UlkeID")]
         public virtual Ulke Ulke { get; set; }
 
+        // 1 tarafa cok tarafın Icollection'ı koyulması, 1 taraftan sorguya gerek kalmadan cok tarafın
+        //degerlerine ulaşmayı sağlar. Kullanılması tehlikelidir. 
+        //1 Yonetmenin cok filmi var. Filmleri databaseden cekmek yerine bu sekilde index yapısı oluşturulur.
+        //lazy loading e yol açar. Kullanımı gerekli yerlerde yapılmalıdır. Yoksa indexleme yüzünden  
+        //database'e cok yük biner ve yavaşlar.
         public virtual ICollection<Film> Film { get; set; } // 1 e çok baglantı demek.
+
+    
+        public string AdSoyad {
+            get {
+                return Ad + " " + Soyad;
+            }
+        }
+    
     }
 
 

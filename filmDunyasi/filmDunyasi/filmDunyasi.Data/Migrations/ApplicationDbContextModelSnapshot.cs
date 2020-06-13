@@ -219,6 +219,76 @@ namespace filmDunyasi.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("filmDunyasi.Models.Dil", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Ad")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Sira")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Dil");
+                });
+
+            modelBuilder.Entity("filmDunyasi.Models.Film", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Afis")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("BaslamaTarihi")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("BitisTarihi")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("DilID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("FilmAdi")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Fragman")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("IMDBRating")
+                        .HasColumnType("float");
+
+                    b.Property<int>("KategoriID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Sure")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("VizyonTarihi")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("YonetmenID")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("DilID");
+
+                    b.HasIndex("KategoriID");
+
+                    b.HasIndex("YonetmenID");
+
+                    b.ToTable("Film");
+                });
+
             modelBuilder.Entity("filmDunyasi.Models.Kategori", b =>
                 {
                     b.Property<int>("ID")
@@ -235,6 +305,50 @@ namespace filmDunyasi.Data.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("Kategoris");
+                });
+
+            modelBuilder.Entity("filmDunyasi.Models.Ulke", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("UlkeAdi")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Ulke");
+                });
+
+            modelBuilder.Entity("filmDunyasi.Models.Yonetmen", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Ad")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Cinsiyet")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("DogumTarihi")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Soyad")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UlkeID")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("UlkeID");
+
+                    b.ToTable("Yonetmen");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -284,6 +398,36 @@ namespace filmDunyasi.Data.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("filmDunyasi.Models.Film", b =>
+                {
+                    b.HasOne("filmDunyasi.Models.Dil", "Dil")
+                        .WithMany()
+                        .HasForeignKey("DilID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("filmDunyasi.Models.Kategori", "Kategori")
+                        .WithMany()
+                        .HasForeignKey("KategoriID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("filmDunyasi.Models.Yonetmen", "Yonetmen")
+                        .WithMany("Film")
+                        .HasForeignKey("YonetmenID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("filmDunyasi.Models.Yonetmen", b =>
+                {
+                    b.HasOne("filmDunyasi.Models.Ulke", "Ulke")
+                        .WithMany()
+                        .HasForeignKey("UlkeID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
